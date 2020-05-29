@@ -3,6 +3,15 @@
 """
 Created on Thu May 28 19:17:46 2020
 
+List for parties:
+    0: number_of_seats
+    1: number of final votes
+    2: relative of final votes to total permutations
+    3: ratio power to number of seats 
+    4: number of seats in power 
+    5: round round 2
+    
+
 @author: Max
 """
 import user_interaction
@@ -15,12 +24,10 @@ def shsu():
    #Number of seats for majority vote
     seats_mv = number_of_seats * (majority_vote/100)
    #Number of permutation user itertools
-    perm = permutations(parties)
-   #Creating dictionary to count decisive votes of parties  
-    parties_dec = {}
-    for p in parties:
-        parties_dec[p] = 0   
+    perm = permutations(parties)   
     total_iterations = 0
+    for p in parties:
+        parties[p].append(0)
    #Loop through perm 
     for pe in perm:
        total_votes = 0
@@ -29,11 +36,21 @@ def shsu():
       #loop through specific permutation
        for p in pe:
           #increase total votes of the group of parties 
-           total_votes += parties[p]
+           total_votes += parties[p][0]
            if total_votes > seats_mv:
-               parties_dec[p] += 1
+               parties[p][1] += 1
                break       
-   #This needs to go to user_interactions 
-    for p in parties_dec:
-        print("\n{0} has {1} power index versus {2} relative seat number".format(p, parties_dec[p]/total_iterations, parties[p]/number_of_seats))
+  
+    for p in parties:
+         #Making relative deceiding vote 
+        parties[p].append(parties[p][1]/total_iterations)
+       #Creating ratio between power and number of seats 
+        ratio = (parties[p][2]) / (parties[p][0]/number_of_seats)
+        rratio = round(ratio, 2)
+        parties[p].append(rratio)
+       #The number of seats according to power calculation 
+        parties[p].append(round(ratio*number_of_seats))
+        parties[p].append(round(parties[p][2],2))
+    
+    user_interaction.output(parties)
     return
