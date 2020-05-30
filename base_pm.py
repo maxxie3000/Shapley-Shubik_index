@@ -7,7 +7,7 @@ List for parties:
     0: number_of_seats
     1: number of final votes
     2: relative of final votes to total permutations
-    3: ratio power to number of seats 
+    3: ratio power to snumber of seats 
     4: number of seats in power 
     5: round round 2
     
@@ -17,6 +17,12 @@ List for parties:
 import user_interaction
 
 from itertools import permutations
+
+def fact(n):
+    fact = 1
+    for n in range(n):
+        fact = fact*n
+    return fact
 
 def shsu():
     print("Let's see how the power is divide according to the Shapley-Shubik index\n First, let's get the basics:")
@@ -30,10 +36,11 @@ def shsu():
         parties[p].append(0)
     winner_list = [1]
     loc = 0
+    length = len(parties) +1
+    total_iterations = fact(length)
    #Loop through perm 
     for pe in perm:
         #itertools does not provide len function
-        total_iterations += 1
         print("\n iteration number: {0} \n check {1}".format(total_iterations, pe))
         if pe[:(loc+1)] == winner_list:
             decider = winner_list[-1]
@@ -47,6 +54,9 @@ def shsu():
             total_votes += parties[p][0]
             if total_votes >= seats_mv:
                
+              # total_iterations_won = fact(length-loc)
+              # parties[p][1] += total_iterations_won  
+                   
                parties[p][1] += 1
                loc = pe.index(p)
                winner_list = pe[:loc+1]
