@@ -28,17 +28,29 @@ def shsu():
     total_iterations = 0
     for p in parties:
         parties[p].append(0)
+    winner_list = [1]
+    loc = 0
    #Loop through perm 
     for pe in perm:
-       total_votes = 0
-      #itertools does not provide len function
-       total_iterations += 1
+        #itertools does not provide len function
+        total_iterations += 1
+        print("\n iteration number: {0} \n check {1}".format(total_iterations, pe))
+        if pe[:(loc+1)] == winner_list:
+            decider = winner_list[-1]
+            parties[decider][1] += 1
+            print("win by known pattern {0}".format(p))
+        else:    
+          total_votes = 0
       #loop through specific permutation
-       for p in pe:
+          for p in pe:
           #increase total votes of the group of parties 
-           total_votes += parties[p][0]
-           if total_votes > seats_mv:
+            total_votes += parties[p][0]
+            if total_votes >= seats_mv:
+               
                parties[p][1] += 1
+               loc = pe.index(p)
+               winner_list = pe[:loc+1]
+               print("win by {0}".format(p))
                break       
   
     for p in parties:
