@@ -7,7 +7,7 @@ List for parties:
     0: number_of_seats
     1: number of final votes
     2: relative of final votes to total permutations
-    3: ratio power to snumber of seats 
+    3: ratio power to number of seats 
     4: number of seats in power 
     5: round round 2
     
@@ -53,9 +53,6 @@ def shsu():
           #increase total votes of the group of parties 
             total_votes += parties[p][0]
             if total_votes >= seats_mv:
-               
-              # total_iterations_won = fact(length-loc)
-              # parties[p][1] += total_iterations_won  
                    
                parties[p][1] += 1
                loc = pe.index(p)
